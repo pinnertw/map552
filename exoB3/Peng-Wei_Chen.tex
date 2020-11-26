@@ -1,0 +1,86 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+% Pour avoir les accents
+\usepackage[utf8]{inputenc}  
+\usepackage[T1]{fontenc}   
+
+% Some macros for your convenience
+\newcommand\bbR{\ensuremath{\mathbb{R}}} % Real numbers
+\newcommand\bbZ{\ensuremath{\mathbb{Z}}} % Integers
+\newcommand\bbE{\ensuremath{\mathbb{E}}} % Expectation
+\DeclareMathOperator*{\tr}{tr} % Trace
+\DeclareMathOperator*{\diag}{diag} % Diagonal matrix
+\DeclareMathOperator*{\sign}{sign} % Sign
+\DeclareMathOperator*{\var}{Var} % Variance
+\DeclareMathOperator*{\cov}{Cov} % Covariance
+\DeclareMathOperator*{\argmin}{Argmin} % \argmin
+
+\newcommand{\1}{\mathbb{I}} % Indicator
+%\newcommand{\newproblem}[1]{\newpage \section*{Problem #1}}
+
+\begin{document}
+
+\begin{center}
+{\Large MAP 552 exercice B3}
+
+\begin{tabular}{c}
+Peng-Wei Chen\\
+\end{tabular}
+\end{center}
+
+\section*{Question 1}
+We can use the theorem 6.12. Since $\varphi$ in $\mathbb{H}^2$. We only need to show that, for all $t \le 0$, we have $\int_0^t \frac{\varphi_s}{||\varphi_s||_n} \frac{\varphi_s^T}{||\varphi_s||_n} ds= tI_n = t$ (n = 1).
+\[
+    = \int_0^t \frac{\varphi_s \varphi_s^T}{|\varphi_s^1|^2 + \cdot + |\varphi_s^n|^2} ds = \int_0^t 1ds = t
+\]
+Therefore, $W_t$ is a Brownian motion by theorem 6.12..
+
+\section*{Question 2}
+We apply the Ito's formula on 
+\[
+    X_t = \sum_{i=1}^{n} \left(x_i + B_t^i\right)^2, \left( x_1,\dots,x_n \right) \in \mathbb{R}^n
+\]
+With $f(t, x) = ||z + x||^2_2, z = \left( x_1,\dots,x_n \right)$, we have the equation
+\[
+    f(t, B_t) = f(0, 0) + \int_{0}^{t} Df(u, B_u)\cdot dB_u + \int_{0}^{t}\left(f_t + \frac{1}{2} Tr\left[ D^2f \right]\right)(u, B_u)du
+\]
+We have
+\[
+    \begin{array}[ht!]{r l}
+        \partial_t f(t, x) &= 0\\
+        Df(t, x) & = 2(z + x)\\
+        D^2f(t, x) & = 2I_n\mbox{, }I_n\mbox{ is the diagonal matrix}\\
+    \end{array}
+\]
+, so
+\[
+    f(t, B_t) = f(0, 0) + \int_{0}^{t} 2(z + B_s)\cdot dB_s + \int_{0}^{t} (0 + n)dt = ||z||_2^2 + \int_{0}^{t}ndt + \int_0^t 2B_s\cdot dB_s
+\]
+We identify
+\[
+    \begin{array}[ht!]{r l}
+        X_0 & = ||z||_2^2\\
+        \phi_s & = 2(z + B_s)\\
+        \psi_s & = n\\
+
+    \end{array}
+\]
+For $\mathbb{E}\left[ \int_0^T||\phi_s||_n^2ds \right] < +\infty$, by Fubini's theorem :
+\[
+    = \int_0^T \mathbb{E}\left[||2(z + B_s)||_n^2\right] ds = 4\int_{0}^{T} z\cdot z + ns ds = 4Tz\cdot z +2nT^2 < \infty \mbox{ for T > 0}
+\]
+because $B_s \sim N\left( 0, sI_n \right)$ in distribution.
+
+\section*{Question 3}
+We define 
+\[
+    d\beta_t = \frac{1}{\sqrt{X_t}}(B_t + z)\cdot dB_t, \beta_0 = 0
+\]
+Therefore, we have
+\[
+    \beta_t = \int_0^t \frac{(B_t + z)\cdot dB_t}{\sqrt{X_t}}
+\]
+Define $\varphi_s = z + B_t$, then $||\varphi_s||_n = \sqrt{X_t}$. By question 1, $(\beta_t)$ is thus a Brownian motion. 
+\end{document}
+

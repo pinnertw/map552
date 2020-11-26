@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+\usepackage{bbm}
+
+% Pour avoir les accents
+\usepackage[utf8]{inputenc}  
+\usepackage[T1]{fontenc}   
+
+% Some macros for your convenience
+\newcommand\bbR{\ensuremath{\mathbb{R}}} % Real numbers
+\newcommand\bbZ{\ensuremath{\mathbb{Z}}} % Integers
+\newcommand\bbE{\ensuremath{\mathbb{E}}} % Expectation
+\DeclareMathOperator*{\tr}{tr} % Trace
+\DeclareMathOperator*{\diag}{diag} % Diagonal matrix
+\DeclareMathOperator*{\sign}{sign} % Sign
+\DeclareMathOperator*{\var}{Var} % Variance
+\DeclareMathOperator*{\cov}{Cov} % Covariance
+\DeclareMathOperator*{\argmin}{Argmin} % \argmin
+
+\newcommand{\1}{\mathbb{I}} % Indicator
+%\newcommand{\newproblem}[1]{\newpage \section*{Problem #1}}
+
+\begin{document}
+
+\begin{center}
+{\Large MAP 552 exercice B6}
+
+\begin{tabular}{c}
+Peng-Wei Chen\\
+\end{tabular}
+\end{center}
+
+Soient $b, \sigma, f : \mathbb{R} \to \mathbb{R}$ des fonctions continues telles que $b, \sigma$ et $\sigma \times f$ sont des fonctions lipschitziennes. Soit $W$ un mouvement brownien standard et $x \in \mathbb{R}$. On pose
+\[
+    X_t = x_0 + \int_0^t b(X_s)ds + \int_0^t \sigma(X_s)dW_s
+\]
+\[
+    X_t' = x_0 + \int_0^t b(X_s') + \sigma(X_s')f(X_s')ds + \int_0^t \sigma(X_s')dW_s
+\]
+On note $L_b, L_\sigma, L_{\sigma\times f}$ les constantes telles que $b$ (resp. $\sigma, \sigma \times f$) soient $L_b$ (resp. $L_\sigma, L_{\sigma\times f}$)-lipschitziennes.
+\section*{Question 1}
+Montrer que les processus $X$ et $X'$ sont bien définis.
+\flushleft{Preuve: }
+\par
+On utilise le théorème 8.3. Fixons $T \in \mathbb{R}_+$. On prend $b' : (\mathbb{R} \times \mathbb{R}) \to \mathbb{R}$ telle que $b'(t, x) = b(x)$ et $\sigma' : (\mathbb{R} \times \mathbb{R}) \to \mathbb{R}$ telle que $\sigma'(t, x) = \sigma(x)$. Alors, $|b'(t, 0)|$ et $|\sigma'(t, 0)|$ sont dans $\mathbb{L}^2([0, T])$ (bornées sur le compact $[0, T]$), et pour $t \in [0, T], x, y \in \mathbb{R}$, on a
+\[
+    |b'(t, x) - b'(t, y)| + |\sigma'(t, x) - \sigma'(t, y)| = |b(x)-b(y)|+|\sigma(x)-\sigma(y)| \le (L_b + L_\sigma)|x-y|
+\]
+En même temps, $x_0$ est indépendant de $W$. Ainsi, il existe une unique solution forte pour $X_t$, \fbox{$X_t$ est donc bien défini.}
+
+En définissant $b'(t, x) = b(x) + \sigma(x)f(x)$ et $\sigma'(t, x) = \sigma(x)$, on a :
+\begin{itemize}
+    \item $|b'(t, 0)| et |\sigma'(t, 0)|$ sont dans $\mathbb{L}^2([0, T])$ (Bornées sur le compact $[0, T]$).
+    \item Pour $t \in [0, T], x, y \in \mathbb{R}$, on a $|b'(t, x) - b'(t, y)| + |\sigma'(t, x) - \sigma'(t, y)| \le (L_b + L_{\sigma \times f} + L_\sigma)|x-y|$.
+\end{itemize}
+$x_0$ est toujours indépendant de $W$. \fbox{$X_t'$ est donc bien défini.}\\
+
+
+\newpage
+\begin{flushleft}
+On définit pour $L > |x_0|$,
+\end{flushleft}
+\[
+    \mathcal{E}_t = exp\left( \int_0^tf(X_s)dW_s - \frac{1}{2}\int_0^t f^2(X_s)ds \right), \mathcal{E}_t^L = exp\left( \int_0^t f(\pi^L(X_s))dW_s - \frac{1}{2} \int_0^t f^2(\pi^L(X_s))ds \right),
+\]
+où $\pi^L(x) = \left( x\wedge L \right) \vee (-L)$ (autrement dit, $\pi^L(x) = x$ si $x \in [-L, L]$, $\pi^L(x) = L$ si $x > L$ et $\pi^L(x) = -L$ si $x < -L$).
+\section*{Question 2}
+Soit $T > 0$. Montrer que $\mathbb{E}[\mathcal{E}_T]\le 1$ et $\mathbb{E}[\mathcal{E}_T^L] = 1$.
+\flushleft{Preuve: }
+\par
+On applique la formule d'Itô à $\mathcal{E}_t = f(t, X_t)$. On a 
+\[
+    d\mathcal{E}_t = \mathcal{E}_tf(X_t)dW_t
+\]
+Donc $\mathcal{E}_t$ est une martingale locale. En plus $\mathbb{E}[\mathcal{E}_0] = 1$ et $\mathcal{E}_t > 0$, c'est donc une surmartingale et on a \fbox{$\mathbb{E}[\mathcal{E}_t] \le 1 \forall t$}.
+
+Pour $\mathcal{E^L_T}$, on utilise le critère de Novikov. Considérons $\mathbb{E}[e^{\frac{1}{2}\int_0^T|f(\pi^L(X_s)|^2ds}]$. Or $\pi^L(X_s) \in [-L, L]$, donc l'espérance est finie. D'où \fbox{$\mathbb{E}[\mathcal{E}_t^L] = 1 \forall t]$}.
+
+\section*{Question 3}
+On pose $\frac{d\mathbb{P}^L}{d\mathbb{P}} = \mathcal{E}_T^L$. Montrer que pour $t \in [0, T], dW_t^L = dW_t - f(\pi^L(X_t))dt$ définit un mouvement brownien sous $\mathbb{P}^L$ et donner la dynamique de $X$ à l'aide de $W^L$ (c'est à dire exprimer $dX_t$ à l'aide de $dW_t^L$).
+\flushleft{Preuve: }
+\par
+
+On sait par Question 2 que $\mathbb{E}[\mathcal{E}_t^L]$ = 1. C'est donc simplement une application du théorème de Girsanov, \fbox{$W_t^L = W_t - \int_0^tf(\pi^L(X_t))dt$ définit donc un mouvement brownien sous $\mathbb{P}^L$}.
+
+Pour $dX_t$, on écrit :
+$$
+\begin{array}[ht!]{rl}
+    dX_t = & b(X_t)dt + \sigma(X_t)dW_t\\
+    = & (b(X_t) + \sigma(X_t)f(\pi^L(X_t)))dt + \sigma(X_t)dW_t^L
+
+\end{array}
+$$
+On a \fbox{$dX_t = (b(X_t) + \sigma(X_t)f(\pi^L(X_t)))dt + \sigma(X_t)dW_t^L$}.
+
+
+
+
+\newpage
+\section*{Question 4}
+On pose $\tau_L = \inf\{t\ge 0, |X_t| \ge L\}$ et $\tau_L' = \inf\{t\ge 0, |X_t'| \ge L\}$. Montrer que $\mathbb{E}[\mathcal{E}_T] = \mathbb{E}[\mathcal{E}_T\mathbbm{1}_{\tau^L\le T}] + \mathbb{P}(\tau_L' > T)$. Conclure que $\mathbb{E}[\mathcal{E}_T] = 1$.
+\flushleft{Preuve: }
+\par
+
+Par la linéarité, on a $\mathbb{E}[\mathcal{E}_T] = \mathbb{E}[\mathcal{E}_T\mathbbm{1}_{\tau_L \ge T}] + \mathbb{E}[\mathcal{E}_T\mathbbm{1}_{\tau_L > T}]$. Considérons donc $\mathbb{E}[\mathcal{E}_T\mathbbm{1}_{\tau_L > T}]$. Le fait que $\tau_L > T$ est équivalent à $\forall t < T, |X_t| < L$. Ainsi,
+\[
+    \begin{array}[ht!]{rl}
+    \mathbb{E}[\mathcal{E}_T\mathbbm{1}_{\tau_L > T}] & = \mathbb{E}[\mathcal{E}^L_T\mathbbm{1}_{\tau_L > T}]\\
+    & = \mathbb{E}^L[\mathbbm{1}_{\tau_L > T}]\\
+    & = \mathbb{E}^L[\mathbbm{1}_{|X_t| < L \forall t \in [0, T]}]\\
+    \end{array}
+\]
+Or, on sait que sous $\mathbb{P}^L$, $dX_t = b(X_t)dt + \sigma(X_t)dW_t' + \sigma(X_t)f(\pi^L(X_t))dt$. Donc sachant que $|X_t| < L$, on a $X_t$ sous $\mathbb{P}^L= X'_t$ sous $\mathbb{P}$ en loi.
+\[
+    = \mathbb{E}[\mathbbm{1}_{|X'_t| < L \forall t \in [0, T]}] = \mathbb{P}(\tau_L' > T)
+\]
+D'où \fbox{$\mathbb{E}[\mathcal{E}_T] = \mathbb{E}[\mathcal{E}_T\mathbbm{1}_{\tau_L\le T}] + \mathbb{P}(\tau_L' > T)$.}
+
+Prenons L tend vers $+\infty$. Vu que $\mathcal{E}_T\mathbbm{1}_{\tau_L\le T} \le \mathcal{E}_T$ et que $\mathbb{E}[\mathcal{E}_T] \le 1$, par la convergence dominée on a $\mathbb{E}[\mathcal{E}_T\mathbbm{1}_{\tau_L\le T}] \to 0$. Nous avons aussi $\mathbb{P}(\tau_L' > T) \to 1$ car $X'$ est une solution forte telle que $\int_0^T(|b(t, X_t)| + |\sigma'(t, X_t)|^2)dt < \infty$ p.s. D'où \fbox{$\mathbb{E}[\mathcal{E}_T] = 1$.}
+\end{document}
+
